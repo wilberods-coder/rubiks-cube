@@ -536,7 +536,7 @@ async function initCube(canvas) {
   cube.add(core);
 
   /* --- Камера под размер экрана --- */
-  const view = { visW: 1, visH: 1, portrait: false };
+  const view = { visW: 1, visH: 1, portrait: false, phone: false };
   function resize() {
     const w = canvas.clientWidth || window.innerWidth;
     const h = canvas.clientHeight || window.innerHeight;
@@ -550,6 +550,7 @@ async function initCube(canvas) {
     view.visH = visH;
     view.visW = visH * camera.aspect;
     view.portrait = camera.aspect < 0.9;
+    view.phone = camera.aspect < 0.62; // узкий телефонный экран
   }
   resize();
   window.addEventListener('resize', resize);
@@ -589,8 +590,10 @@ async function initCube(canvas) {
       // Hero: под заголовком, тянется за мышью, при скролле уплывает вверх
       const h = s.hero;
       px = 0;
-      py = -view.visH * (view.portrait ? 0.17 : 0.22) + h * view.visH * 0.3;
-      scale = (0.85 + 0.15 * easeOut(s.intro)) * (1 - h * 0.25) * (view.portrait ? 1 : 0.76);
+      // телефон / планшет в портрете / ландшафт
+      const [offY, size] = view.phone ? [0.17, 1] : view.portrait ? [0.25, 0.64] : [0.22, 0.72];
+      py = -view.visH * offY + h * view.visH * 0.3;
+      scale = (0.85 + 0.15 * easeOut(s.intro)) * (1 - h * 0.25) * size;
       ry = 0.65 + spin + h * 2.2 + pointer.sx * 0.6;
       rx = 0.42 + pointer.sy * 0.35 + h * 0.5;
     } else {
