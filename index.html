@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Кубик Рубика — больше, чем игрушка</title>
+  <meta name="description" content="История, механика и культурное влияние кубика Рубика: от чертежей Эрнё Рубика 1974 года до спидкубинга.">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:title" content="Кубик Рубика. Больше, чем игрушка.">
+  <meta property="og:description" content="История, механика и культурный код самой известной головоломки в мире.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <!-- ───────────── Навигация (glassmorphism) ───────────── -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="#top" aria-label="В начало">
+        <img src="./assets/favicon.svg" alt="" width="20" height="20">
+        <span>Кубик</span>
+      </a>
+      <nav class="nav__links" aria-label="Разделы">
+        <a href="#history">История</a>
+        <a href="#mechanics">Механика</a>
+        <a href="#culture">Культура</a>
+      </nav>
+      <a class="nav__cta" href="https://github.com/wilberods-coder/rubiks-cube" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </header>
+
+  <!-- Единый WebGL-холст: кубик живёт в Hero и в «Механике» -->
+  <canvas id="cube-canvas" class="cube-canvas" aria-hidden="true"></canvas>
+
+  <main>
+
+    <!-- ───────────── 1. Hero ───────────── -->
+    <section class="hero" id="top">
+      <div class="hero__content container">
+        <p class="eyebrow" data-hero>1974 — сегодня</p>
+        <h1 class="hero__title" data-hero>Кубик Рубика.<br><span class="gradient-text">Больше, чем игрушка.</span></h1>
+        <p class="hero__lead" data-hero>Шесть граней. Двадцать шесть деталей. 43&nbsp;квинтиллиона состояний — и&nbsp;лишь одно из&nbsp;них решённое.</p>
+      </div>
+      <div class="hero__hint" aria-hidden="true"><span>Листайте</span><i></i></div>
+    </section>
+
+    <!-- Манифест: слова подсвечиваются по мере скролла -->
+    <section class="statement container" aria-label="Вступление">
+      <p class="statement__text">Его придумали не&nbsp;для игры. Архитектор хотел объяснить студентам пространство — а&nbsp;подарил миру головоломку, над которой думают уже полвека.</p>
+    </section>
+
+    <!-- ───────────── 2. История (sticky) ───────────── -->
+    <section class="history" id="history">
+      <div class="history__track">
+        <div class="history__sticky">
+          <div class="history__bg" aria-hidden="true"></div>
+          <div class="history__grid container">
+
+            <div class="history__visual" aria-hidden="true">
+              <div class="slide is-active" data-slide="blueprint"></div>
+              <div class="slide" data-slide="wood"></div>
+              <div class="slide" data-slide="magic"></div>
+              <div class="slide" data-slide="world"></div>
+            </div>
+
+            <div class="history__text">
+              <p class="eyebrow">История</p>
+              <div class="history__steps">
+                <article class="history__step is-active" style="--accent: var(--c-blue)">
+                  <span class="history__year">1974</span>
+                  <h2>Чертёж</h2>
+                  <p>Весна, Будапешт. Эрнё Рубик, 29-летний преподаватель кафедры интерьерного дизайна, ищет способ объяснить студентам трёхмерное пространство. Задача архитектора: как заставить блоки вращаться независимо — и&nbsp;не&nbsp;развалиться?</p>
+                </article>
+                <article class="history__step" style="--accent: var(--c-orange)">
+                  <span class="history__year">1974</span>
+                  <h2>Прототип</h2>
+                  <p>Первая модель — деревянные бруски на резинках. Рубик раскрасил грани, сделал несколько поворотов… и&nbsp;понял, что не&nbsp;может вернуть всё обратно. На первую сборку у&nbsp;него ушло больше месяца.</p>
+                </article>
+                <article class="history__step" style="--accent: var(--c-green)">
+                  <span class="history__year">1977</span>
+                  <h2>Bűvös Kocka</h2>
+                  <p>Патент подан в&nbsp;1975-м. Через два года кооператив «Политехника» выпускает первую партию «Волшебного кубика» в&nbsp;магазины игрушек Будапешта. Головоломка расходится по&nbsp;Венгрии из&nbsp;рук в&nbsp;руки.</p>
+                </article>
+                <article class="history__step" style="--accent: var(--c-red)">
+                  <span class="history__year">1980</span>
+                  <h2>Весь мир</h2>
+                  <p>Ideal Toy Corp. переименовывает его в&nbsp;Rubik’s Cube и&nbsp;показывает на&nbsp;ярмарках игрушек в&nbsp;Лондоне, Париже, Нюрнберге и&nbsp;Нью-Йорке. Так начинается история самой продаваемой головоломки в&nbsp;мире.</p>
+                </article>
+              </div>
+              <div class="history__progress" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── 3. Механика (3D + параллакс) ───────────── -->
+    <section class="mech" id="mechanics">
+      <header class="section-head container">
+        <p class="eyebrow" data-reveal>Механика</p>
+        <h2 class="section-title" data-reveal>Гениально просто.<br><span class="muted">Внутри.</span></h2>
+      </header>
+
+      <div class="mech__track">
+        <div class="mech__sticky">
+          <div class="mech__steps container">
+            <article class="mech__step is-active">
+              <span class="mech__num">01</span>
+              <h3>Крестовина</h3>
+              <p>В&nbsp;сердце кубика — пространственный крест с&nbsp;шестью осями. На&nbsp;каждую на&nbsp;винте с&nbsp;пружиной посажен центральный элемент. Центры не&nbsp;двигаются относительно друг друга — они задают цвет грани.</p>
+            </article>
+            <article class="mech__step">
+              <span class="mech__num">02</span>
+              <h3>26 деталей</h3>
+              <p>6&nbsp;центров, 12&nbsp;рёбер и&nbsp;8&nbsp;углов. Рёбра и&nbsp;углы ничем не&nbsp;закреплены: их&nbsp;«лапки» цепляются друг за&nbsp;друга и&nbsp;прячутся под центрами. Кубик держит сам себя.</p>
+            </article>
+            <article class="mech__step">
+              <span class="mech__num">03</span>
+              <h3>Независимые слои</h3>
+              <p>Любая грань поворачивается на&nbsp;90°, не&nbsp;разрушая конструкцию. Детали просто переезжают из&nbsp;слоя в&nbsp;слой — так из&nbsp;порядка рождается хаос.</p>
+            </article>
+            <article class="mech__step">
+              <span class="mech__num">04</span>
+              <h3>43 квинтиллиона</h3>
+              <p>8!&nbsp;·&nbsp;3⁷&nbsp;·&nbsp;12!/2&nbsp;·&nbsp;2¹¹ — столько состояний у&nbsp;этой системы. И&nbsp;из&nbsp;любого можно вернуться к&nbsp;решению не&nbsp;более чем за&nbsp;20&nbsp;ходов.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <div class="specs container">
+        <div class="spec" data-speed="0.25"><span class="spec__value">57<small>мм</small></span><span class="spec__label">ребро классического кубика</span></div>
+        <div class="spec" data-speed="0.5"><span class="spec__value">26</span><span class="spec__label">подвижных деталей</span></div>
+        <div class="spec" data-speed="0.15"><span class="spec__value">6</span><span class="spec__label">осей крестовины</span></div>
+        <div class="spec" data-speed="0.4"><span class="spec__value">20</span><span class="spec__label">ходов хватит для любой позиции</span></div>
+      </div>
+    </section>
+
+    <!-- ───────────── 4. Культурный код ───────────── -->
+    <section class="culture" id="culture">
+      <div class="container">
+        <header class="section-head section-head--left">
+          <p class="eyebrow" data-reveal>Культурный код</p>
+          <h2 class="section-title" data-reveal>Он изменил то, как мы&nbsp;играем, думаем и&nbsp;соревнуемся.</h2>
+        </header>
+
+        <div class="bignum" data-reveal>
+          <span class="bignum__value" id="combos">43 252 003 274 489 856 000</span>
+          <span class="bignum__label">возможных состояний. Если перебирать по&nbsp;одному в&nbsp;секунду — уйдёт больше 1,3&nbsp;триллиона лет.</span>
+        </div>
+
+        <div class="cards">
+          <article class="card" style="--accent: var(--c-red)" data-reveal>
+            <p class="card__kicker">Поп-культура</p>
+            <h3>Икона восьмидесятых.</h3>
+            <p>Собственный мультсериал «Rubik, the Amazing Cube» (1983), книги с&nbsp;решениями в&nbsp;списках бестселлеров, статья в&nbsp;Оксфордском словаре с&nbsp;1982&nbsp;года. Его узнают по&nbsp;одному силуэту.</p>
+          </article>
+          <article class="card" style="--accent: var(--c-blue)" data-reveal>
+            <p class="card__kicker">Математика</p>
+            <h3>Учебник теории групп.</h3>
+            <p>Каждый поворот — элемент группы, а&nbsp;сборка — поиск пути в&nbsp;гигантском графе. В&nbsp;2010&nbsp;году, потратив 35&nbsp;CPU-лет на&nbsp;серверах Google, исследователи доказали: «число Бога» равно&nbsp;20.</p>
+          </article>
+          <article class="card" style="--accent: var(--c-yellow)" data-reveal>
+            <p class="card__kicker">Искусство</p>
+            <h3>Рубикубизм.</h3>
+            <p>Французский уличный художник Invader собирает из&nbsp;сотен кубиков портреты и&nbsp;иконы поп-культуры. Шесть цветов оказались полноценной палитрой.</p>
+          </article>
+
+          <article class="card card--wide" style="--accent: var(--c-green)" data-reveal>
+            <div class="card__copy">
+              <p class="card__kicker">Спидкубинг</p>
+              <h3>От 23 секунд до&nbsp;трёх.</h3>
+              <p>На&nbsp;первом чемпионате мира в&nbsp;Будапеште (1982) победил Минь Тхай с&nbsp;результатом 22,95&nbsp;с. Сегодня WCA проводит тысячи соревнований в&nbsp;год, а&nbsp;мировой рекорд держится около трёх секунд.</p>
+            </div>
+            <div class="bars" role="img" aria-label="Рекорды сборки 3×3: 1982 — 22,95 с; 2008 — 7,08 с; 2018 — 3,47 с; сегодня — около 3 с">
+              <div class="bar"><span class="bar__year">1982</span><span class="bar__track"><i class="bar__fill" style="--v: 1"></i></span><span class="bar__val">22,95 с</span></div>
+              <div class="bar"><span class="bar__year">2008</span><span class="bar__track"><i class="bar__fill" style="--v: .308"></i></span><span class="bar__val">7,08 с</span></div>
+              <div class="bar"><span class="bar__year">2018</span><span class="bar__track"><i class="bar__fill" style="--v: .151"></i></span><span class="bar__val">3,47 с</span></div>
+              <div class="bar"><span class="bar__year">Сейчас</span><span class="bar__track"><i class="bar__fill" style="--v: .132"></i></span><span class="bar__val">≈3 с</span></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="stats">
+          <div class="stat" data-reveal><span class="stat__value" data-count="1974">1974</span><span class="stat__label">год изобретения</span></div>
+          <div class="stat" data-reveal><span class="stat__value"><span data-count="500">500</span>&nbsp;млн</span><span class="stat__label">кубиков продано по&nbsp;всему миру</span></div>
+          <div class="stat" data-reveal><span class="stat__value" data-count="1982">1982</span><span class="stat__label">первый чемпионат мира</span></div>
+          <div class="stat" data-reveal><span class="stat__value" data-count="2004">2004</span><span class="stat__label">основана World Cube Association</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ───────────── 5. Footer ───────────── -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <img src="./assets/favicon.svg" alt="" width="22" height="22">
+        <span>Кубик Рубика</span>
+      </div>
+      <p class="footer__note">Некоммерческий фан-проект. Rubik’s Cube® — товарный знак Spin Master Ltd.</p>
+      <a class="footer__link" href="https://github.com/wilberods-coder/rubiks-cube" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Исходный код на GitHub
+      </a>
+    </div>
+  </footer>
+
+  <!-- Библиотеки: точные версии с CDN, без сборки -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script type="module" src="./script.js"></script>
+</body>
+</html>
